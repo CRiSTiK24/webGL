@@ -1,4 +1,4 @@
-export function setGeometry(gl) {
+function setGeometry(gl) {
   var positions = new Float32Array([
     // left column front
     0, 0, 0, 0, 150, 0, 30, 0, 0, 0, 150, 0, 30, 150, 0, 30, 0, 0,
@@ -74,7 +74,7 @@ export function setGeometry(gl) {
   gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
 }
 
-export function setNormals(gl) {
+function setNormals(gl) {
   var normals = new Float32Array([
     // left column front
     0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
@@ -125,4 +125,48 @@ export function setNormals(gl) {
     -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0,
   ]);
   gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
+}
+
+export function drawF(gl, attributeLocations) {
+  var positionBuffer = gl.createBuffer();
+  var vao = gl.createVertexArray();
+  gl.bindVertexArray(vao);
+  gl.enableVertexAttribArray(attributeLocations.position);
+  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  setGeometry(gl);
+
+  var size = 3; // 3 components per iteration
+  var type = gl.FLOAT; // the data is 32bit floats
+  var normalize = false; // don't normalize the data
+  var stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
+  var offset = 0; // start at the beginning of the buffer
+  gl.vertexAttribPointer(
+    attributeLocations.position,
+    size,
+    type,
+    normalize,
+    stride,
+    offset,
+  );
+
+  var normalBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+  setNormals(gl);
+
+  gl.enableVertexAttribArray(attributeLocations.normal);
+
+  size = 3; // 3 components per iteration
+  type = gl.FLOAT; // the data is 32bit floats
+  normalize = false; // don't normalize the data
+  stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next color
+  offset = 0; // start at the beginning of the buffer
+  gl.vertexAttribPointer(
+    attributeLocations.normal,
+    size,
+    type,
+    normalize,
+    stride,
+    offset,
+  );
+  return vao;
 }
