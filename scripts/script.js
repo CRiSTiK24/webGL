@@ -6,11 +6,11 @@ import {
   getUniformLocations,
 } from "./program.js";
 
-import { degToRad, radToDeg } from "./math/trigonometry";
-import { drawF } from "./geometries/F.js";
 import { initUI, resizeCanvasToDisplaySize } from "./UI/initUI";
-import { initDrawScene, initScene } from "./drawSceneAux";
-import { cuboProva, drawCuboProva } from "./geometries/cuboProva";
+import { initDrawScene, initScene, recalculateScene } from "./drawSceneAux";
+import { drawCuboProva } from "./geometries/cuboProva";
+import { initKeyboardControls } from "./controls/keyboardControls";
+import { initMouseControls } from "./controls/mouseControls";
 
 function main() {
   var canvas = document.querySelector("#canvas");
@@ -23,9 +23,29 @@ function main() {
   var attributeLocations = getAttributeLocations(gl, program);
   var uniformLocations = getUniformLocations(gl, program);
   var VAOs = [];
+  var cubeType = {
+    count: 6 * 6,
+    indexedBool: true,
+  };
+  var fType = {
+    count: 16 * 6,
+    indexedBool: false,
+  };
+
+  var typesOfVAOs = [];
+  var transformationsOfVAOs = [];
   VAOs.push(drawCuboProva(gl, attributeLocations));
+  typesOfVAOs.push(cubeType);
+  //VAOs.push(drawF(gl, attributeLocations));
+  //typesOfVAOs.push(fType);
   var fRotationRadiansObj = { value: 0 };
   initUI(fRotationRadiansObj);
+
+  var scene = initScene(gl);
+  initKeyboardControls(scene, canvas);
+  initMouseControls(scene, canvas);
+  initDrawScene(gl, program);
+
   requestAnimationFrame(drawScene);
   var then = 0;
   function drawScene(now) {
@@ -33,10 +53,7 @@ function main() {
     var deltaTime = now - then;
     then = now;
 
-    initDrawScene(gl, program);
-
-    var scene = initScene(gl);
-
+    var currentVao = 0;
     VAOs.forEach((vao) => {
       gl.bindVertexArray(vao);
       var worldMatrix = m4.yRotation(fRotationRadiansObj.value);
@@ -61,13 +78,22 @@ function main() {
         uniformLocations.reverseLightDirection,
         m4.normalize([0.5, 0.7, 1]),
       );
-      var primitiveType = gl.TRIANGLES;
-      var offset = 0;
-      var count = 6 * 6;
-      var indexType = gl.UNSIGNED_SHORT;
-      gl.drawElements(primitiveType, count, indexType, offset);
+      drawVAO(gl, typesOfVAOs[currentVao]);
     });
 
+    function drawVAO(gl, currentVaoType) {
+      var primitiveType = gl.TRIANGLES;
+      var offset = 0;
+      if (currentVaoType.indexedBool) {
+        var indexType = gl.UNSIGNED_SHORT;
+        gl.drawElements(primitiveType, currentVaoType.count, indexType, offset);
+      } else {
+        gl.drawArrays(primitiveType, offset, currentVaoType.count);
+      }
+      currentVao += 1;
+    }
+
+    recalculateScene(scene);
     requestAnimationFrame(drawScene);
   }
 }

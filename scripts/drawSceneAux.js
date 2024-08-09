@@ -21,7 +21,7 @@ export function initScene(gl) {
     zNear,
     zFar,
   );
-  var camera = [10, -50, 50];
+  var camera = [0, 0, 100];
   var target = [0, 0, 0];
   var up = [0, 1, 0];
   var cameraMatrix = m4.lookAt(camera, target, up);
@@ -40,4 +40,17 @@ export function initScene(gl) {
     viewProjectionMatrix: viewProjectionMatrix,
   };
   return hashScene;
+}
+
+export function recalculateScene(hashScene) {
+  hashScene.cameraMatrix = m4.lookAt(
+    hashScene.camera,
+    hashScene.target,
+    hashScene.up,
+  );
+  hashScene.viewMatrix = m4.inverse(hashScene.cameraMatrix);
+  hashScene.viewProjectionMatrix = m4.multiply(
+    hashScene.projectionMatrix,
+    hashScene.viewMatrix,
+  );
 }
