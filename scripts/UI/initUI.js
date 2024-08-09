@@ -1,5 +1,3 @@
-import { degToRad, radToDeg } from "../math/trigonometry";
-
 export function resizeCanvasToDisplaySize(canvas) {
   // Lookup the size the browser is displaying the canvas in CSS pixels.
   const displayWidth = canvas.clientWidth;
@@ -18,15 +16,9 @@ export function resizeCanvasToDisplaySize(canvas) {
   return needResize;
 }
 
-export function initUI(fRotationRadiansObj) {
-  webglLessonsUI.setupSlider("#fRotation", {
-    value: radToDeg(fRotationRadiansObj.value),
-    slide: updateRotation,
-    min: -360,
-    max: 360,
-  });
-
-  function updateRotation(event, ui) {
-    fRotationRadiansObj.value = degToRad(ui.value);
-  }
+export function initUI() {
+  return {
+    camera: document.querySelector("#Camera"),
+    target: document.querySelector("#Target"),
+  };
 }

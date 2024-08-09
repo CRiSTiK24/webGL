@@ -6,11 +6,11 @@ import {
   getUniformLocations,
 } from "./program.js";
 
-import { initUI, resizeCanvasToDisplaySize } from "./UI/initUI";
+import { initUI } from "./UI/initUI";
 import { initDrawScene, initScene, recalculateScene } from "./drawSceneAux";
-import { drawCuboProva } from "./geometries/cuboProva";
 import { initKeyboardControls } from "./controls/keyboardControls";
 import { initMouseControls } from "./controls/mouseControls";
+import { getObjects } from "./objPlacement/objPlacement";
 
 function main() {
   var canvas = document.querySelector("#canvas");
@@ -22,24 +22,16 @@ function main() {
   var program = createProgram(gl);
   var attributeLocations = getAttributeLocations(gl, program);
   var uniformLocations = getUniformLocations(gl, program);
-  var VAOs = [];
-  var cubeType = {
-    count: 6 * 6,
-    indexedBool: true,
-  };
-  var fType = {
-    count: 16 * 6,
-    indexedBool: false,
+
+  var VAOstruct = {
+    VAOs: [],
+    typesOfVAOs: [],
+    tranformationsOfVAOs: [],
   };
 
-  var typesOfVAOs = [];
-  var transformationsOfVAOs = [];
-  VAOs.push(drawCuboProva(gl, attributeLocations));
-  typesOfVAOs.push(cubeType);
-  //VAOs.push(drawF(gl, attributeLocations));
-  //typesOfVAOs.push(fType);
-  var fRotationRadiansObj = { value: 0 };
-  initUI(fRotationRadiansObj);
+  getObjects(gl, attributeLocations, VAOstruct);
+
+  var uiScene = initUI();
 
   var scene = initScene(gl);
   initKeyboardControls(scene, canvas);
@@ -50,13 +42,13 @@ function main() {
   var then = 0;
   function drawScene(now) {
     now *= 0.001;
-    var deltaTime = now - then;
+    //var deltaTime = now - then;
     then = now;
 
     var currentVao = 0;
-    VAOs.forEach((vao) => {
+    VAOstruct.VAOs.forEach((vao) => {
       gl.bindVertexArray(vao);
-      var worldMatrix = m4.yRotation(fRotationRadiansObj.value);
+      var worldMatrix = VAOstruct.tranformationsOfVAOs[currentVao];
       var worldViewProjectionMatrix = m4.multiply(
         scene.viewProjectionMatrix,
         worldMatrix,
@@ -78,7 +70,7 @@ function main() {
         uniformLocations.reverseLightDirection,
         m4.normalize([0.5, 0.7, 1]),
       );
-      drawVAO(gl, typesOfVAOs[currentVao]);
+      drawVAO(gl, VAOstruct.typesOfVAOs[currentVao]);
     });
 
     function drawVAO(gl, currentVaoType) {
@@ -93,7 +85,7 @@ function main() {
       currentVao += 1;
     }
 
-    recalculateScene(scene);
+    recalculateScene(scene, uiScene);
     requestAnimationFrame(drawScene);
   }
 }

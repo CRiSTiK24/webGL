@@ -90,3 +90,8 @@ export function drawCuboProva(gl, attributeLocations) {
 
   return vao;
 }
+
+export var cubeType = {
+  count: 6 * 6,
+  indexedBool: true,
+};

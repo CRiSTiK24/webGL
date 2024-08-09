@@ -61,12 +61,12 @@ function setGeometry(gl) {
 
   for (var ii = 0; ii < positions.length; ii += 3) {
     var vector = m4.transformVector(matrix, [
-      positions[ii + 0],
+      positions[ii],
       positions[ii + 1],
       positions[ii + 2],
       1,
     ]);
-    positions[ii + 0] = vector[0];
+    positions[ii] = vector[0];
     positions[ii + 1] = vector[1];
     positions[ii + 2] = vector[2];
   }
@@ -170,3 +170,8 @@ export function drawF(gl, attributeLocations) {
   );
   return vao;
 }
+
+export var fType = {
+  count: 16 * 6,
+  indexedBool: false,
+};

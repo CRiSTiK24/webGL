@@ -1,5 +1,32 @@
-import { resizeCanvasToDisplaySize } from "./UI/initUI";
 import { degToRad } from "./math/trigonometry";
+import { resizeCanvasToDisplaySize } from "./UI/initUI";
+
+export function recalculateScene(hashScene, uiScene) {
+  hashScene.cameraMatrix = m4.lookAt(
+    hashScene.camera,
+    hashScene.target,
+    hashScene.up,
+  );
+  hashScene.viewMatrix = m4.inverse(hashScene.cameraMatrix);
+  hashScene.viewProjectionMatrix = m4.multiply(
+    hashScene.projectionMatrix,
+    hashScene.viewMatrix,
+  );
+  uiScene.camera.innerHTML = hashScene.camera;
+  uiScene.target.innerHTML = hashScene.target;
+}
+
+export function drawVAO(gl, currentVaoType, currentVaoIndex) {
+  var primitiveType = gl.TRIANGLES;
+  var offset = 0;
+  if (currentVaoType.indexedBool) {
+    var indexType = gl.UNSIGNED_SHORT;
+    gl.drawElements(primitiveType, currentVaoType.count, indexType, offset);
+  } else {
+    gl.drawArrays(primitiveType, offset, currentVaoType.count);
+  }
+  return currentVaoIndex + 1;
+}
 
 export function initDrawScene(gl, program) {
   resizeCanvasToDisplaySize(gl.canvas);
@@ -27,7 +54,7 @@ export function initScene(gl) {
   var cameraMatrix = m4.lookAt(camera, target, up);
   var viewMatrix = m4.inverse(cameraMatrix);
   var viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
-  const hashScene = {
+  return {
     aspect: aspect,
     zNear: zNear,
     zFar: zFar,
@@ -39,18 +66,4 @@ export function initScene(gl) {
     viewMatrix: viewMatrix,
     viewProjectionMatrix: viewProjectionMatrix,
   };
-  return hashScene;
-}
-
-export function recalculateScene(hashScene) {
-  hashScene.cameraMatrix = m4.lookAt(
-    hashScene.camera,
-    hashScene.target,
-    hashScene.up,
-  );
-  hashScene.viewMatrix = m4.inverse(hashScene.cameraMatrix);
-  hashScene.viewProjectionMatrix = m4.multiply(
-    hashScene.projectionMatrix,
-    hashScene.viewMatrix,
-  );
 }

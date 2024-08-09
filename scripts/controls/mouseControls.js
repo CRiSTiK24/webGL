@@ -1,4 +1,4 @@
-import { degToRad, radToDeg } from "../math/trigonometry";
+import { degToRad } from "../math/trigonometry";
 import { applyCameraRotations } from "../camera/applyCameraRotations";
 
 export function initMouseControls(scene, canvas) {
@@ -34,12 +34,13 @@ export function initMouseControls(scene, canvas) {
   }
 
   function handleRotations() {
-    var pitch = 0;
-    var yaw = 0;
-    pitch -= degToRad(Math.ceil(lastMove.y) * speed);
-    yaw -= degToRad(Math.ceil(lastMove.x) * speed);
+    var pitch = -degToRad(Math.ceil(lastMove.y) * speed);
 
-    applyCameraRotations(pitch, yaw, 0, scene);
+    var yaw = -degToRad(Math.ceil(lastMove.x) * speed);
+
+    if (Math.abs(pitch) > 0.001 || Math.abs(yaw) > 0.001) {
+      applyCameraRotations(pitch, yaw, 0, scene);
+    }
 
     lastMove.x = 0;
     lastMove.y = 0;
