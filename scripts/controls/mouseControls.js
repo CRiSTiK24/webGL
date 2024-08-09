@@ -34,12 +34,12 @@ export function initMouseControls(scene, canvas) {
   }
 
   function handleRotations() {
-    var pitch = -degToRad(Math.ceil(lastMove.y) * speed);
+    var rotX = degToRad(Math.ceil(lastMove.y) * speed);
 
-    var yaw = -degToRad(Math.ceil(lastMove.x) * speed);
+    var rotY = -degToRad(Math.ceil(lastMove.x) * speed);
 
-    if (Math.abs(pitch) > 0.001 || Math.abs(yaw) > 0.001) {
-      applyCameraRotations(pitch, yaw, 0, scene);
+    if (Math.abs(rotX) > 0.001 || Math.abs(rotY) > 0.001) {
+      applyCameraRotations(rotX, rotY, 0, scene);
     }
 
     lastMove.x = 0;

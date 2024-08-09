@@ -3,7 +3,7 @@ import { degToRad } from "../math/trigonometry";
 
 export function getObjects(gl, attributeLocations, VAOstruct) {
   addObject(gl, attributeLocations, VAOstruct, "Cube");
-  getTransformationsVAOs(VAOstruct, 10, 10, 10, 45, 45, 45);
+  getTransformationsVAOs(VAOstruct, 0, 0, 0, 0, 0, 0);
 }
 
 function getTransformationsVAOs(VAOstruct, tx, ty, tz, rx, ry, rz) {

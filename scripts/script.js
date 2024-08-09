@@ -68,7 +68,7 @@ function main() {
       gl.uniform4fv(uniformLocations.color, [0.2, 1, 0.2, 1]); // green
       gl.uniform3fv(
         uniformLocations.reverseLightDirection,
-        m4.normalize([0.5, 0.7, 1]),
+        m4.normalize([-1, -1, -1]),
       );
       drawVAO(gl, VAOstruct.typesOfVAOs[currentVao]);
     });

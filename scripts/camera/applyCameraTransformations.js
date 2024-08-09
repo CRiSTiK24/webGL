@@ -1,6 +1,4 @@
 export function translateCamera(translationArray, scene) {
-  console.log(translationArray);
-
   var amountMoved = [0, 0, 0];
 
   var cameraToTargetVector = m4.subtractVectors(scene.target, scene.camera);
@@ -14,6 +12,8 @@ export function translateCamera(translationArray, scene) {
   var xAxisMoved = m4.scaleVector(normalizedVectorXaxis, translationArray[0]);
 
   m4.addVectors(amountMoved, xAxisMoved, amountMoved);
+
+  amountMoved[1] = 0;
 
   scene.camera = m4.addVectors(scene.camera, amountMoved);
   scene.target = m4.addVectors(scene.target, amountMoved);

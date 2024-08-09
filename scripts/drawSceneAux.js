@@ -14,6 +14,7 @@ export function recalculateScene(hashScene, uiScene) {
   );
   uiScene.camera.innerHTML = hashScene.camera;
   uiScene.target.innerHTML = hashScene.target;
+  uiScene.up.innerHTML = hashScene.up;
 }
 
 export function drawVAO(gl, currentVaoType, currentVaoIndex) {

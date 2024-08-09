@@ -20,5 +20,6 @@ export function initUI() {
   return {
     camera: document.querySelector("#Camera"),
     target: document.querySelector("#Target"),
+    up: document.querySelector("#up"),
   };
 }
