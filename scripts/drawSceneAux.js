@@ -49,8 +49,8 @@ export function initScene(gl) {
     zNear,
     zFar,
   );
-  var camera = [0, 0, 100];
-  var target = [0, 0, 0];
+  var camera = [0, 1.8, 10];
+  var target = [0, 1.8, 0];
   var up = [0, 1, 0];
   var cameraMatrix = m4.lookAt(camera, target, up);
   var viewMatrix = m4.inverse(cameraMatrix);
