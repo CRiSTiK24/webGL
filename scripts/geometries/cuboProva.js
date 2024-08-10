@@ -88,6 +88,32 @@ export function drawCuboProva(gl, attributeLocations) {
     gl.STATIC_DRAW,
   );
 
+  var texcoordBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, texcoordBuffer);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array(cuboProva.texcoords),
+    gl.STATIC_DRAW,
+  );
+
+  // Turn on the attribute
+  gl.enableVertexAttribArray(attributeLocations.texcoord);
+
+  // Tell the attribute how to get data out of texcoordBuffer (ARRAY_BUFFER)
+  size = 2; // 2 components per iteration
+  type = gl.FLOAT; // the data is 32bit floating point values
+  normalize = true; // convert from 0-255 to 0.0-1.0
+  stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next texcoord
+  offset = 0; // start at the beginning of the buffer
+  gl.vertexAttribPointer(
+    attributeLocations.texcoord,
+    size,
+    type,
+    normalize,
+    stride,
+    offset,
+  );
+
   return vao;
 }
 

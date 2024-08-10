@@ -38,6 +38,7 @@ export function initDrawScene(gl, program) {
   gl.enable(gl.CULL_FACE);
   gl.useProgram(program);
 }
+
 export function initScene(gl) {
   var fieldOfViewRadians = degToRad(60);
   var aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;

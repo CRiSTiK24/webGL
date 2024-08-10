@@ -11,6 +11,7 @@ import { initDrawScene, initScene, recalculateScene } from "./drawSceneAux";
 import { initKeyboardControls } from "./controls/keyboardControls";
 import { initMouseControls } from "./controls/mouseControls";
 import { getObjects } from "./objPlacement/objPlacement";
+import { getTextures } from "./textures/textures";
 
 function main() {
   var canvas = document.querySelector("#canvas");
@@ -28,6 +29,8 @@ function main() {
     typesOfVAOs: [],
     tranformationsOfVAOs: [],
   };
+
+  getTextures(gl);
 
   getObjects(gl, attributeLocations, VAOstruct);
 
@@ -65,7 +68,7 @@ function main() {
         false,
         worldInverseTransposeMatrix,
       );
-      gl.uniform4fv(uniformLocations.color, [0.2, 1, 0.2, 1]); // green
+      gl.uniform4fv(uniformLocations.color, [1, 1, 1, 1]); // white
       gl.uniform3fv(
         uniformLocations.reverseLightDirection,
         m4.normalize([1, 4, 10]),
