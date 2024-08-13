@@ -30,7 +30,7 @@ function main() {
     tranformationsOfVAOs: [],
   };
 
-  getTextures(gl);
+  getTextures(gl, attributeLocations);
 
   getObjects(gl, attributeLocations, VAOstruct);
 
@@ -50,6 +50,9 @@ function main() {
 
     var currentVao = 0;
     VAOstruct.VAOs.forEach((vao) => {
+      var currentTexture = 32 * (currentVao + 4);
+      gl.vertexAttrib1f(attributeLocations.depth, currentTexture);
+      console.log(currentTexture);
       gl.bindVertexArray(vao);
       var worldMatrix = VAOstruct.tranformationsOfVAOs[currentVao];
       var worldViewProjectionMatrix = m4.multiply(

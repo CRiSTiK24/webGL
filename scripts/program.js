@@ -28,10 +28,12 @@ export function getAttributeLocations(gl, program) {
   var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
   var normalAttributeLocation = gl.getAttribLocation(program, "a_normal");
   var texcoordAttributeLocation = gl.getAttribLocation(program, "a_texcoord");
+  var depthAttributeLocation = gl.getAttribLocation(program, "a_depth");
   const hashAttribtuteLocations = {
     position: positionAttributeLocation,
     normal: normalAttributeLocation,
     texcoord: texcoordAttributeLocation,
+    depth: depthAttributeLocation,
   };
 
   return hashAttribtuteLocations;
