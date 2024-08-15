@@ -40,6 +40,7 @@ export function getAttributeLocations(gl, program) {
 }
 
 export function getUniformLocations(gl, program) {
+  var worldLocation = gl.getUniformLocation(program, "u_world");
   var worldViewProjectionLocation = gl.getUniformLocation(
     program,
     "u_worldViewProjection",
@@ -49,25 +50,51 @@ export function getUniformLocations(gl, program) {
     "u_worldInverseTranspose",
   );
   var colorLocation = gl.getUniformLocation(program, "u_color");
-  var lightWorldPositionLocation = gl.getUniformLocation(
-    program,
-    "u_lightWorldPosition",
-  );
   var viewWorldPositionLocation = gl.getUniformLocation(
     program,
     "u_viewWorldPosition",
   );
-  var shininessLocation = gl.getUniformLocation(program, "u_shininess");
+  var shininessSunLocation = gl.getUniformLocation(program, "u_shininessSun");
+  var sunlightWorldPositionLocation = gl.getUniformLocation(
+    program,
+    "u_lightWorldPositionSun",
+  );
+  var shininessLightbulbLocation = gl.getUniformLocation(
+    program,
+    "u_shininessLightbulb",
+  );
+  var lightbulbWorldPositionLocation = gl.getUniformLocation(
+    program,
+    "u_lightWorldPositionLightbulb",
+  );
+  var shininessLanternLocation = gl.getUniformLocation(
+    program,
+    "u_shininessLantern",
+  );
+  var lanternWorldPositionLocation = gl.getUniformLocation(
+    program,
+    "u_lightWorldPositionLantern",
+  );
+  var limitLantern = gl.getUniformLocation(program, "u_limitLantern");
+  var directionLantern = gl.getUniformLocation(
+    program,
+    "u_lightDirectionLantern",
+  );
 
-  var worldLocation = gl.getUniformLocation(program, "u_world");
   const hashUniformLocations = {
     viewProjection: worldViewProjectionLocation,
     viewWorld: viewWorldPositionLocation,
     inverseTranspose: worldInverseTransposeLocation,
     color: colorLocation,
-    lightPosition: lightWorldPositionLocation,
+    sunlightPosition: sunlightWorldPositionLocation,
     world: worldLocation,
-    shininess: shininessLocation,
+    shininessSun: shininessSunLocation,
+    lightbulbPosition: lightbulbWorldPositionLocation,
+    shininessLightbulb: shininessLightbulbLocation,
+    lanternPosition: lanternWorldPositionLocation,
+    shininessLantern: shininessLanternLocation,
+    limitLantern: limitLantern,
+    directionLantern: directionLantern,
   };
   return hashUniformLocations;
 }

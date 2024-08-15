@@ -12,6 +12,7 @@ import { initKeyboardControls } from "./controls/keyboardControls";
 import { initMouseControls } from "./controls/mouseControls";
 import { getObjects } from "./objPlacement/objPlacement";
 import { getTextures } from "./textures/textures";
+import { degToRad } from "./math/trigonometry";
 
 function main() {
   var canvas = document.querySelector("#canvas");
@@ -71,7 +72,13 @@ function main() {
         worldInverseTransposeMatrix,
       );
       gl.uniform4fv(uniformLocations.color, [1, 1, 1, 1]); // white
-      setLighting(gl, uniformLocations, worldMatrix, worldViewProjectionMatrix);
+      setLighting(
+        gl,
+        uniformLocations,
+        scene,
+        worldMatrix,
+        worldViewProjectionMatrix,
+      );
       drawVAO(gl, VAOstruct.typesOfVAOs[currentVao]);
     });
 
@@ -89,6 +96,7 @@ function main() {
     function setLighting(
       gl,
       uniformLocations,
+      scene,
       worldMatrix,
       worldViewProjectionMatrix,
     ) {
@@ -98,10 +106,22 @@ function main() {
         false,
         worldViewProjectionMatrix,
       );
-      // set the light position
-      gl.uniform3fv(uniformLocations.lightPosition, [30, 120, 300]);
       gl.uniform3fv(uniformLocations.viewWorld, scene.camera);
-      gl.uniform1f(uniformLocations.shininess, 1000);
+
+      gl.uniform3fv(uniformLocations.sunlightPosition, [30, 120, 300]);
+      gl.uniform1f(uniformLocations.shininessSun, 10);
+
+      gl.uniform3fv(uniformLocations.lightbulbPosition, [0, 4, 0]);
+      gl.uniform1f(uniformLocations.shininessLightbulb, 1000);
+
+      var limit = degToRad(10);
+      gl.uniform3fv(uniformLocations.lanternPosition, scene.camera);
+      gl.uniform1f(uniformLocations.shininessLantern, 10000);
+      gl.uniform3fv(
+        uniformLocations.directionLantern,
+        m4.subtractVectors(scene.target, scene.camera),
+      );
+      gl.uniform1f(uniformLocations.limitLantern, Math.cos(limit));
     }
 
     recalculateScene(scene, uiScene);
