@@ -49,15 +49,25 @@ export function getUniformLocations(gl, program) {
     "u_worldInverseTranspose",
   );
   var colorLocation = gl.getUniformLocation(program, "u_color");
-  var reverseLightDirectionLocation = gl.getUniformLocation(
+  var lightWorldPositionLocation = gl.getUniformLocation(
     program,
-    "u_reverseLightDirection",
+    "u_lightWorldPosition",
   );
+  var viewWorldPositionLocation = gl.getUniformLocation(
+    program,
+    "u_viewWorldPosition",
+  );
+  var shininessLocation = gl.getUniformLocation(program, "u_shininess");
+
+  var worldLocation = gl.getUniformLocation(program, "u_world");
   const hashUniformLocations = {
     viewProjection: worldViewProjectionLocation,
+    viewWorld: viewWorldPositionLocation,
     inverseTranspose: worldInverseTransposeLocation,
     color: colorLocation,
-    reverseLightDirection: reverseLightDirectionLocation,
+    lightPosition: lightWorldPositionLocation,
+    world: worldLocation,
+    shininess: shininessLocation,
   };
   return hashUniformLocations;
 }

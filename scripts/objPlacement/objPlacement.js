@@ -18,6 +18,9 @@ export function getObjects(gl, attributeLocations, VAOstruct) {
   addObject(gl, attributeLocations, VAOstruct, "Wall");
   getTransformationsVAOs(VAOstruct, 0, -6, 10, 0, 0, 90, 1, 10, 4); //floor
 
+  addObject(gl, attributeLocations, VAOstruct, "Wall");
+  getTransformationsVAOs(VAOstruct, 0, -7, 0, 0, 0, 90, 1, 1000, 1000); //World Ground
+
   addObject(gl, attributeLocations, VAOstruct, "WoodTable");
   getTransformationsVAOs(VAOstruct, -5, -8, 5, 0, 0, 0, 10, 10, 10);
 
@@ -28,7 +31,7 @@ export function getObjects(gl, attributeLocations, VAOstruct) {
   getTransformationsVAOs(VAOstruct, 0, 4, 0, 0, 0, 0, 10, 10, 10);
 
   addObject(gl, attributeLocations, VAOstruct, "Sun");
-  getTransformationsVAOs(VAOstruct, 40, 160, 400, 0, 0, 0, 10, 10, 10);
+  getTransformationsVAOs(VAOstruct, 40, 160, 400, 0, 0, 0, 2, 2, 2);
 }
 
 function getTransformationsVAOs(VAOstruct, tx, ty, tz, rx, ry, rz, sx, sy, sz) {

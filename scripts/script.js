@@ -52,7 +52,6 @@ function main() {
     VAOstruct.VAOs.forEach((vao) => {
       var currentTexture = 32 * (currentVao + 4);
       gl.vertexAttrib1f(attributeLocations.depth, currentTexture);
-      console.log(currentTexture);
       gl.bindVertexArray(vao);
       var worldMatrix = VAOstruct.tranformationsOfVAOs[currentVao];
       var worldViewProjectionMatrix = m4.multiply(
@@ -72,10 +71,7 @@ function main() {
         worldInverseTransposeMatrix,
       );
       gl.uniform4fv(uniformLocations.color, [1, 1, 1, 1]); // white
-      gl.uniform3fv(
-        uniformLocations.reverseLightDirection,
-        m4.normalize([1, 4, 10]),
-      );
+      setLighting(gl, uniformLocations, worldMatrix, worldViewProjectionMatrix);
       drawVAO(gl, VAOstruct.typesOfVAOs[currentVao]);
     });
 
@@ -89,6 +85,23 @@ function main() {
         gl.drawArrays(primitiveType, offset, currentVaoType.count);
       }
       currentVao += 1;
+    }
+    function setLighting(
+      gl,
+      uniformLocations,
+      worldMatrix,
+      worldViewProjectionMatrix,
+    ) {
+      gl.uniformMatrix4fv(uniformLocations.world, false, worldMatrix);
+      gl.uniformMatrix4fv(
+        uniformLocations.viewProjection,
+        false,
+        worldViewProjectionMatrix,
+      );
+      // set the light position
+      gl.uniform3fv(uniformLocations.lightPosition, [30, 120, 300]);
+      gl.uniform3fv(uniformLocations.viewWorld, scene.camera);
+      gl.uniform1f(uniformLocations.shininess, 1000);
     }
 
     recalculateScene(scene, uiScene);
