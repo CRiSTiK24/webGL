@@ -80,6 +80,15 @@ export function getUniformLocations(gl, program) {
     program,
     "u_lightDirectionLantern",
   );
+  var sunLight = gl.getUniformLocation(program, "u_lightColorSun");
+  var sunIntensity = gl.getUniformLocation(program, "u_intensitySun");
+  var lightbulbLight = gl.getUniformLocation(program, "u_lightColorLightbulb");
+  var lightbulbIntensity = gl.getUniformLocation(
+    program,
+    "u_intensityLightbulb",
+  );
+  var lanternLight = gl.getUniformLocation(program, "u_lightColorLantern");
+  var lanternIntensity = gl.getUniformLocation(program, "u_intensityLantern");
 
   const hashUniformLocations = {
     viewProjection: worldViewProjectionLocation,
@@ -95,6 +104,12 @@ export function getUniformLocations(gl, program) {
     shininessLantern: shininessLanternLocation,
     limitLantern: limitLantern,
     directionLantern: directionLantern,
+    sunLight: sunLight,
+    sunIntensity: sunIntensity,
+    lightbulbLight: lightbulbLight,
+    lightbulbIntensity: lightbulbIntensity,
+    lanternLight: lanternLight,
+    lanternIntensity: lanternIntensity,
   };
   return hashUniformLocations;
 }

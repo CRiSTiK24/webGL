@@ -22,12 +22,20 @@ uniform float u_shininessLantern;
 uniform vec3 u_lightDirectionLantern;
 uniform float u_limitLantern;
 
+uniform vec3 u_lightColorSun;
+uniform float u_intensitySun;
+uniform vec3 u_lightColorLightbulb;
+uniform float u_intensityLightbulb;
+uniform vec3 u_lightColorLantern;
+uniform float u_intensityLantern;
+
 
 out vec4 outColor;
 
 void main() {
   vec3 normal = normalize(v_normal);
   outColor = texture(u_texture, vec3(v_texcoord,v_depth));
+  
   
   vec3 surfaceToLightDirectionSun = normalize(v_surfaceToLightSun);
   vec3 surfaceToViewDirectionSun = normalize(v_surfaceToView);
@@ -37,6 +45,8 @@ void main() {
   if (lightSun > 0.0) {
     specularSun = pow(dot(normal, halfVectorSun), u_shininessSun);
   }
+  vec3 diffuseSun = u_lightColorSun * lightSun * u_intensitySun;
+  vec3 specularSunColor = u_lightColorSun * specularSun * u_intensitySun;
 
   
   vec3 surfaceToLightDirectionLightbulb = normalize(v_surfaceToLightLightbulb);
@@ -47,6 +57,9 @@ void main() {
   if (lightLightbulb > 0.0) {
     specularLightbulb = pow(dot(normal, halfVectorLightbulb), u_shininessLightbulb);
   }
+  vec3 diffuseLightbulb = u_lightColorLightbulb * lightLightbulb * u_intensityLightbulb;
+  vec3 specularLightbulbColor = u_lightColorLightbulb * specularLightbulb * u_intensityLightbulb;
+
   
   vec3 surfaceToLightDirectionLantern = normalize(v_surfaceToLightLantern);
   vec3 surfaceToViewDirectionLantern = normalize(v_surfaceToView);
@@ -61,9 +74,15 @@ void main() {
       specularLantern = pow(dot(normal, halfVectorLantern), u_shininessLantern);
     }
   }
+  vec3 diffuseLantern = u_lightColorLantern * lightLantern * u_intensityLantern;
+  vec3 specularLanternColor = u_lightColorLantern * specularLantern * u_intensityLantern;
 
-  outColor.rgb *= (lightSun+lightLightbulb+lightLantern);
-  outColor.rgb += specularSun + specularLightbulb + specularLantern;
+
+  vec3 finalDiffuse = diffuseSun + diffuseLightbulb + diffuseLantern;
+  vec3 finalSpecular = specularSunColor + specularLightbulbColor + specularLanternColor;
+
+  outColor.rgb *= finalDiffuse;
+  outColor.rgb += finalSpecular;
   outColor.rgb = clamp(outColor.rgb, 0.0, 1.0);
 }
 `;

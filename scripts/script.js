@@ -35,7 +35,7 @@ function main() {
 
   getObjects(gl, attributeLocations, VAOstruct);
 
-  var uiScene = initUI();
+  initUI(uniformLocations, gl, program);
 
   var scene = initScene(gl);
   initKeyboardControls(scene, canvas);
@@ -124,7 +124,7 @@ function main() {
       gl.uniform1f(uniformLocations.limitLantern, Math.cos(limit));
     }
 
-    recalculateScene(scene, uiScene);
+    recalculateScene(scene);
     requestAnimationFrame(drawScene);
   }
 }

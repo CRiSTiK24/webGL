@@ -1,7 +1,7 @@
 import { degToRad } from "./math/trigonometry";
 import { resizeCanvasToDisplaySize } from "./UI/initUI";
 
-export function recalculateScene(hashScene, uiScene) {
+export function recalculateScene(hashScene) {
   hashScene.cameraMatrix = m4.lookAt(
     hashScene.camera,
     hashScene.target,
@@ -12,9 +12,6 @@ export function recalculateScene(hashScene, uiScene) {
     hashScene.projectionMatrix,
     hashScene.viewMatrix,
   );
-  uiScene.camera.innerHTML = hashScene.camera;
-  uiScene.target.innerHTML = hashScene.target;
-  uiScene.up.innerHTML = hashScene.up;
 }
 
 export function drawVAO(gl, currentVaoType, currentVaoIndex) {
