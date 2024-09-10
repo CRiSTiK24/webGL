@@ -1,0 +1,28 @@
+{
+  "name": "webgl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "scripts/script.js",
+  "directories": {
+    "lib": "scripts/lib"
+  },
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CRiSTiK24/webGL.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CRiSTiK24/webGL/issues"
+  },
+  "homepage": "https://github.com/CRiSTiK24/webGL#readme",
+  "devDependencies": {
+    "parcel": "^2.12.0",
+    "prettier": "3.3.3"
+  }
+}
