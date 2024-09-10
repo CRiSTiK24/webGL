@@ -1,4 +1,4 @@
-import * as glMatrix from "../../../../../../Downloads/common.js";
+import * as glMatrix from "./common.js";
 
 /**
  * 4 Dimensional Vector
